@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.express.dao.TaskDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.express.entity.TaskEntity" id="taskMap">
+        <result property="taskId" column="task_id"/>
+        <result property="taskReceiverId" column="task_receiver_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="transportNo" column="transport_no"/>
+        <result property="phoneNum" column="phone_num"/>
+        <result property="address" column="address"/>
+        <result property="taskType" column="task_type"/>
+        <result property="taskStatus" column="task_status"/>
+        <result property="allocationBy" column="allocation_by"/>
+        <result property="allocationTime" column="allocation_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+
+</mapper>

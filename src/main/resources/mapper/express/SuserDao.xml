@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.express.dao.SuserDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.express.entity.SuserEntity" id="suserMap">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="mobile" column="mobile"/>
+        <result property="userRole" column="user_role"/>
+        <result property="userType" column="user_type"/>
+        <result property="userImg" column="user_img"/>
+        <result property="wechatId" column="wechat_id"/>
+        <result property="wechatName" column="wechat_name"/>
+        <result property="idcar" column="IDcar"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+
+</mapper>

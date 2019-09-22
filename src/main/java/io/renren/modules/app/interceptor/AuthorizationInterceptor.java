@@ -33,7 +33,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public static final String USER_KEY = "userId";
+    public static final String USER_KEY = "openid";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -65,7 +65,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         //设置userId到request里，后续根据userId，获取用户信息
-        request.setAttribute(USER_KEY, Long.parseLong(claims.getSubject()));
+        request.setAttribute(USER_KEY, claims.getSubject());
 
         return true;
     }

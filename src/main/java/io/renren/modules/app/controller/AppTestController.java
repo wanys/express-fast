@@ -15,10 +15,7 @@ import io.renren.modules.app.annotation.LoginUser;
 import io.renren.modules.app.entity.UserEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * APP测试接口
@@ -48,6 +45,13 @@ public class AppTestController {
     @ApiOperation("忽略Token验证测试")
     public R notToken(){
         return R.ok().put("msg", "无需token也能访问。。。");
+    }
+
+    @Login
+    @GetMapping("notToken2")
+    @ApiOperation("忽略Token验证测试")
+    public R notToken2(@RequestParam("userId") Integer userId){
+        return R.ok().put("msg", "无需token也能访问。。。22222"+userId);
     }
 
 }

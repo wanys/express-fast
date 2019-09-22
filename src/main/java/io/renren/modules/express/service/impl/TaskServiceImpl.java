@@ -21,6 +21,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         IPage<TaskEntity> page = this.page(
                 new Query<TaskEntity>().getPage(params),
                 new QueryWrapper<TaskEntity>()
+                .like("task_id", params.get("task_id"))
         );
 
         return new PageUtils(page);

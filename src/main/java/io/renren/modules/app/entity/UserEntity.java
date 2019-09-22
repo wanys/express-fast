@@ -36,9 +36,13 @@ public class UserEntity implements Serializable {
 	 */
 	private String username;
 	/**
+	 * 微信唯一识别码
+	 */
+	private String openid;
+	/**
 	 * 手机号
 	 */
-	private String mobile;
+	private String phone;
 	/**
 	 * 密码
 	 */

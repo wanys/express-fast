@@ -13,9 +13,13 @@ import io.renren.common.utils.R;
 import io.renren.modules.app.annotation.Login;
 import io.renren.modules.app.annotation.LoginUser;
 import io.renren.modules.app.entity.UserEntity;
+import io.renren.modules.app.resolver.LoginUserHandlerMethodArgumentResolver;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * APP测试接口
@@ -26,6 +30,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/app")
 @Api("APP测试接口")
 public class AppTestController {
+
+    @Autowired
+    LoginUserHandlerMethodArgumentResolver userHandlerMethodArgumentResolver;
 
     @Login
     @GetMapping("userInfo")
@@ -50,8 +57,15 @@ public class AppTestController {
     @Login
     @GetMapping("notToken2")
     @ApiOperation("忽略Token验证测试")
-    public R notToken2(@RequestParam("userId") Integer userId){
-        return R.ok().put("msg", "无需token也能访问。。。22222"+userId);
+    public R notToken2(@RequestParam("userId") Integer userId,@LoginUser UserEntity user){
+
+        String rloe= user.getRole();
+        if (rloe.equals("ExpressMan")){
+            return R.ok().put("msg", "无需token也能访问。。。22222"+userId);
+        }else
+        {
+            return R.error("权限不对！"+userId);
+        }
     }
 
 }

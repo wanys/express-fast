@@ -40,6 +40,10 @@ public class UserEntity implements Serializable {
 	 */
 	private String openid;
 	/**
+	 * 用户角色
+	 */
+	private String role;
+	/**
 	 * 手机号
 	 */
 	private String phone;

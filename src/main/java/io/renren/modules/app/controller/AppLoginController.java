@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.DatetimeUtil;
 import io.renren.common.utils.R;
+import io.renren.common.utils.RedisUtils;
 import io.renren.modules.app.utils.UrlUtil;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.app.entity.UserEntity;
@@ -100,17 +101,17 @@ public class AppLoginController {
             return R.error().put("no_power","未授权！");
         }
         String openid = (String)jsonObject.get("openid");
-        String sessionKey = (String)jsonObject.get("session_key");
+        //String sessionKey = (String)jsonObject.get("session_key");
 
         JSONObject user_info_detail= JSONObject.parseObject(userInfoDetail);
-        String encryptedData=user_info_detail.getString("encryptedData");
-        String iv=user_info_detail.getString("iv");
+        //String encryptedData=user_info_detail.getString("encryptedData");
+       // String iv=user_info_detail.getString("iv");
         String user_info=user_info_detail.getString("userInfo");
         JSONObject userinfo= JSONObject.parseObject(user_info);
         String userName=userinfo.getString("nickName");
 
 
-        JSONObject resolved=WXUtils.getUserInfo(encryptedData,sessionKey,iv);
+        //JSONObject resolved=WXUtils.getUserInfo(encryptedData,sessionKey,iv);
 
         //通过openid查询数据库是否有此用户
         UserEntity oldUser = userService.queryByOpenid(openid);
@@ -122,6 +123,7 @@ public class AppLoginController {
             }
             //redisTemplate.opsForValue().set(openid,sessionKey,1000, TimeUnit.SECONDS);//存到redis中,设置失效时间
             //生成token
+
             String token = jwtUtils.generateToken(openid);
             Map<String, Object> map = new HashMap<>();
             map.put("token", token);
@@ -130,11 +132,10 @@ public class AppLoginController {
             return R.ok(map);
         }
 
-
-
         UserEntity newUser = new UserEntity();
         newUser.setUsername(userName);
         newUser.setOpenid(openid);
+        newUser.setRole("ExpressMan");
 
         if(newUser.getPhone()==null) {
             newUser.setPhone("");
@@ -144,6 +145,7 @@ public class AppLoginController {
 
         userService.save(newUser);
 
+        //RedisUtils.
         //redisTemplate.opsForValue().set(openid,sessionKey,1000, TimeUnit.SECONDS);//存到redis中,设置失效时间
 
         //生成token

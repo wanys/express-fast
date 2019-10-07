@@ -2,6 +2,9 @@ package io.renren.modules.express.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
+import io.renren.modules.app.annotation.LoginUser;
+import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.express.entity.OrderEntity;
 
 import java.util.Map;
@@ -16,5 +19,9 @@ import java.util.Map;
 public interface OrderService extends IService<OrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    boolean saveOrder(OrderEntity orderEntity);
+
+    boolean WeChatSaveOrder(OrderEntity orderEntity, UserEntity userEntity);
 }
 

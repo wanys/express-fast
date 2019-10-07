@@ -55,9 +55,6 @@ public class AppLoginController {
     @Value("${AppSecret}")
     private String AppSecret;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
     /**
      * 登录
      */

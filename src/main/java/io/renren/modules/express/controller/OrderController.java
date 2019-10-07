@@ -3,6 +3,8 @@ package io.renren.modules.express.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.renren.modules.app.annotation.LoginUser;
+import io.renren.modules.app.entity.UserEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,8 +61,9 @@ public class OrderController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("express:order:save")
-    public R save(@RequestBody OrderEntity order){
-		orderService.save(order);
+    public R save(@RequestBody OrderEntity order,@LoginUser UserEntity userEntity){
+
+		orderService.saveOrder(order);
 
         return R.ok();
     }

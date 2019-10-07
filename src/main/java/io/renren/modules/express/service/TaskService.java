@@ -16,5 +16,7 @@ import java.util.Map;
 public interface TaskService extends IService<TaskEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryPageWeChat(Map<String, Object> params);
 }
 

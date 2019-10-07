@@ -1,5 +1,6 @@
 package io.renren.modules.express.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -22,16 +23,12 @@ public class TaskEntity implements Serializable {
 	/**
 	 * 任务编号
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private String taskId;
 	/**
 	 * 任务领取人id
 	 */
 	private String taskReceiverId;
-	/**
-	 * 用户id
-	 */
-	private String userId;
 	/**
 	 * 订单id
 	 */
@@ -45,9 +42,21 @@ public class TaskEntity implements Serializable {
 	 */
 	private String phoneNum;
 	/**
+	 * 取货/派送地址 省
+	 */
+	private String province;
+	/**
+	 * 取货/派送地址 市
+	 */
+	private String city;
+	/**
+	 * 取货/派送地址 区
+	 */
+	private String area;
+	/**
 	 * 取货/派送地址
 	 */
-	private String address;
+	private String detaileAddr;
 	/**
 	 * 任务类型（0 揽件；1派送）
 	 */

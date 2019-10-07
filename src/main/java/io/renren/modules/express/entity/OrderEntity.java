@@ -1,5 +1,6 @@
 package io.renren.modules.express.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -20,18 +21,14 @@ public class OrderEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
-	 */
-	@TableId
-	private Integer id;
-	/**
 	 * 订单编号
 	 */
+	@TableId(type = IdType.INPUT)
 	private String orderId;
 	/**
 	 * 用户ID
 	 */
-	private Integer userId;
+	private String userId;
 	/**
 	 * 寄件人姓名
 	 */
@@ -39,11 +36,24 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 寄件人号码
 	 */
-	private Integer senderPhone;
-	/**
-	 * 寄件人地址
-	 */
-	private String senderAddr;
+	private String senderPhone;
+
+    /**
+     * 寄件人省份
+     */
+    private String senderProvince;
+    /**
+     * 寄件人城市
+     */
+    private String senderCity;
+    /**
+     * 寄件人区
+     */
+    private String senderArea;
+    /**
+     * 寄件人地址
+     */
+    private String senderDetaileAddr;
 	/**
 	 * 收件人姓名
 	 */
@@ -51,11 +61,23 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 收件人号码
 	 */
-	private Integer receiverPhone;
+	private String receiverPhone;
+    /**
+     * 收件人省份
+     */
+    private String receiverProvince;
+    /**
+     * 收件人城市
+     */
+    private String receiverCity;
+    /**
+     * 收件人区
+     */
+    private String receiverArea;
 	/**
 	 * 收件人地址
 	 */
-	private String receiverAddr;
+	private String receiverDetaileAddr;
 	/**
 	 * 物品种类
 	 */
@@ -67,14 +89,27 @@ public class OrderEntity implements Serializable {
 	/**
 	 * 订单状态
 	 */
-	private Integer orderStatus;
+	private String orderStatus;
+
+	/**
+	 * 快递公司
+	 */
+	private String express;
 	/**
 	 * 创建时间
 	 */
 	private Date createTime;
 	/**
-	 * 快递公司
+	 * 创建人
 	 */
-	private String express;
+	private String createBy;
+	/**
+	 * 修改时间
+	 */
+	private Date modifyTime;
+	/**
+	 * 创建人
+	 */
+	private String modifyBy;
 
 }

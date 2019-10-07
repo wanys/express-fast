@@ -1,5 +1,6 @@
 package io.renren;
 
+import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.app.utils.JwtUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ public class JwtTest {
 
     @Test
     public void test() {
+
         String token = jwtUtils.generateToken(1+"");
 
         System.out.println(token);

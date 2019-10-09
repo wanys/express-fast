@@ -1,8 +1,12 @@
 package io.renren.modules.express.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.modules.app.entity.UserEntity;
+import io.renren.modules.app.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +20,7 @@ import io.renren.modules.express.service.TaskService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
+import javax.validation.constraints.Size;
 
 
 /**
@@ -30,6 +35,9 @@ import io.renren.common.utils.R;
 public class TaskController {
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 列表
@@ -86,5 +94,24 @@ public class TaskController {
 
         return R.ok();
     }
+
+    /**
+     * 分配
+     */
+    @RequestMapping("/allocation")
+    @RequiresPermissions("express:task:allocation")
+    public R allocation(@RequestBody String[] taskIds){
+        taskService.allocationBatch(taskIds);
+
+        return R.ok();
+    }
+
+    @RequestMapping("/getCourier")
+    @RequiresPermissions("express:task:allocation")
+    public R getCourier(){
+       List<UserEntity> listUser= userService.list();
+        return R.ok().put("userlist",listUser);
+    }
+
 
 }

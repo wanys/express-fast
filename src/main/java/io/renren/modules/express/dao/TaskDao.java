@@ -4,6 +4,8 @@ import io.renren.modules.express.entity.TaskEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 /**
  * 任务表
  * 
@@ -13,5 +15,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface TaskDao extends BaseMapper<TaskEntity> {
-	
+
+    /**
+     * 批量更新状态
+     */
+    int updateBatch(Map<String, Object> map);
 }

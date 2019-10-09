@@ -18,5 +18,10 @@ public interface TaskService extends IService<TaskEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils queryPageWeChat(Map<String, Object> params);
+
+    /**
+     * 批量更新定时任务状态
+     */
+    int allocationBatch(String [] taskIds);
 }
 

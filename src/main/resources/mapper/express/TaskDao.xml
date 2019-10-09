@@ -7,11 +7,14 @@
     <resultMap type="io.renren.modules.express.entity.TaskEntity" id="taskMap">
         <result property="taskId" column="task_id"/>
         <result property="taskReceiverId" column="task_receiver_id"/>
-        <result property="userId" column="user_id"/>
+
         <result property="orderId" column="order_id"/>
         <result property="transportNo" column="transport_no"/>
         <result property="phoneNum" column="phone_num"/>
-        <result property="address" column="address"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="detaileAddr" column="detaile_addr"/>
         <result property="taskType" column="task_type"/>
         <result property="taskStatus" column="task_status"/>
         <result property="allocationBy" column="allocation_by"/>
@@ -22,5 +25,17 @@
         <result property="modifyTime" column="modify_time"/>
     </resultMap>
 
+    <!-- 批量更新状态 -->
+    <update id="updateBatch">
+        update tb_task set task_status = #{taskStatus},
+            modify_by=#{userId},
+            modify_time=CURRENT_TIMESTAMP,
+            allocation_by=#{userId},
+            allocation_time=CURRENT_TIMESTAMP
+        where task_id in
+        <foreach item="taskId" collection="list"  open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </update>
 
 </mapper>

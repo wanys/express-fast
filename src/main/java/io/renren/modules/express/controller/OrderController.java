@@ -50,7 +50,7 @@ public class OrderController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("express:order:info")
-    public R info(@PathVariable("id") Integer id){
+    public R info(@PathVariable("id")String id){
 		OrderEntity order = orderService.getById(id);
 
         return R.ok().put("order", order);

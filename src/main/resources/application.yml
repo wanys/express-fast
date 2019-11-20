@@ -78,5 +78,7 @@ renren:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
-AppID: wx74ef14fe2065db0c
-AppSecret: 7b7936bf0915949100ba97917e7d32e6
+AppID: wxf3a3218d42def513
+  #wx74ef14fe2065db0c
+AppSecret: 616e2d49c6f49dd8cc963c3ab826a605
+  #7b7936bf0915949100ba97917e7d32e6

@@ -38,13 +38,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
     }
 
     @Override
-    public int allocationBatch(String[] taskIds) {
+    public int allocationBatch(String[] taskIds,String taskReceiverId) {
 
-        SysUserEntity sysUserEntity =(SysUserEntity) SecurityUtils.getSubject().getPrincipal();
         Map<String, Object> map = new HashMap<>(3);
         map.put("list", taskIds);
         map.put("taskStatus", "20");
-        map.put("userId", sysUserEntity.getUserId());
+        map.put("userId", taskReceiverId);
         return baseMapper.updateBatch(map);
     }
 

@@ -1,6 +1,7 @@
 package io.renren.modules.express.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,8 +101,10 @@ public class TaskController {
      */
     @RequestMapping("/allocation")
     @RequiresPermissions("express:task:allocation")
-    public R allocation(@RequestBody String[] taskIds){
-        taskService.allocationBatch(taskIds);
+    public R allocation(@RequestBody String[] taskIds,String taskReceiverId){
+
+
+        taskService.allocationBatch(taskIds,taskReceiverId);
 
         return R.ok();
     }
@@ -109,8 +112,8 @@ public class TaskController {
     @RequestMapping("/getCourier")
     @RequiresPermissions("express:task:allocation")
     public R getCourier(){
-       List<UserEntity> listUser= userService.list();
-        return R.ok().put("userlist",listUser);
+       List<UserEntity> courierList= userService.list();
+       return R.ok().put("courierList",courierList);
     }
 
 

@@ -22,6 +22,6 @@ public interface TaskService extends IService<TaskEntity> {
     /**
      * 批量更新定时任务状态
      */
-    int allocationBatch(String [] taskIds);
+    int allocationBatch(String [] taskIds,String taskReceiverId);
 }
 

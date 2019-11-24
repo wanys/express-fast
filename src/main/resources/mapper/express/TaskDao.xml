@@ -28,6 +28,7 @@
     <!-- 批量更新状态 -->
     <update id="updateBatch">
         update tb_task set task_status = #{taskStatus},
+            task_receiver_id=#{taskReceiverId},
             modify_by=#{userId},
             modify_time=CURRENT_TIMESTAMP,
             allocation_by=#{userId},

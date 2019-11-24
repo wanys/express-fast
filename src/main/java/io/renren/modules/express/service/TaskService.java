@@ -2,6 +2,8 @@ package io.renren.modules.express.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.modules.app.entity.UserEntity;
+import io.renren.modules.express.entity.OrderEntity;
 import io.renren.modules.express.entity.TaskEntity;
 
 import java.util.Map;
@@ -23,5 +25,7 @@ public interface TaskService extends IService<TaskEntity> {
      * 批量更新定时任务状态
      */
     int allocationBatch(String [] taskIds,String taskReceiverId);
+
+    boolean WeChatBindWayBill(TaskEntity taskEntity,UserEntity userEntity);
 }
 

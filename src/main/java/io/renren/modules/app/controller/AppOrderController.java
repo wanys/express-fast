@@ -23,29 +23,13 @@ import java.util.Map;
 public class AppOrderController {
 
     @Autowired
-    private TaskService taskService;
-
-    @Autowired
     private OrderService orderService;
-
-    /**
-     * 列表
-     */
-    @Login
-    @ApiOperation("任务列表")
-    @GetMapping("task/list")
-    public R list(@RequestParam Map<String, Object> params){
-
-        PageUtils page = taskService.queryPageWeChat(params);
-
-        return R.ok().put("page", page);
-    }
 
     /**
      * 保存
      */
     @Login
-    @ApiOperation("任务列表")
+    @ApiOperation("保存订单")
     @PostMapping("order/save")
     public R save(@RequestBody OrderEntity order,@LoginUser UserEntity user){
 

@@ -99,10 +99,11 @@ public class TaskController {
     /**
      * 分配
      */
-    @RequestMapping("/allocation")
+    @RequestMapping("/allocation/{taskReceiverId}")
     @RequiresPermissions("express:task:allocation")
-    public R allocation(@RequestBody String[] taskIds,String taskReceiverId){
+    public R allocation(@RequestBody String[] taskIds,@PathVariable String taskReceiverId){
 
+        //task.getTaskReceiverId();
 
         taskService.allocationBatch(taskIds,taskReceiverId);
 

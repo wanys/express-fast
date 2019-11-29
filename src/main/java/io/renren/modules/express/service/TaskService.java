@@ -1,11 +1,14 @@
 package io.renren.modules.express.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itextpdf.text.DocumentException;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.express.entity.OrderEntity;
 import io.renren.modules.express.entity.TaskEntity;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -27,5 +30,7 @@ public interface TaskService extends IService<TaskEntity> {
     int allocationBatch(String [] taskIds,String taskReceiverId);
 
     boolean WeChatBindWayBill(TaskEntity taskEntity,UserEntity userEntity);
+
+    String PrintQRCode() throws IOException, DocumentException;
 }
 

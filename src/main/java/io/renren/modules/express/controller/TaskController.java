@@ -103,8 +103,6 @@ public class TaskController {
     @RequiresPermissions("express:task:allocation")
     public R allocation(@RequestBody String[] taskIds,@PathVariable String taskReceiverId){
 
-        //task.getTaskReceiverId();
-
         taskService.allocationBatch(taskIds,taskReceiverId);
 
         return R.ok();

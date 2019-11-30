@@ -16,6 +16,7 @@ import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -195,16 +196,21 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
             e.printStackTrace();
         }
 
-        RandomUtil.getRandomFileName();
-
-        // 模板文件路径
-        String templatePath = "E:\\Git\\express-fast\\src\\main\\resources\\static\\template\\QRCode.pdf";
+        // 模板文件 绝对路径
+        //String templatePath = "E:\\Git\\express-fast\\src\\main\\resources\\static\\template\\QRCode.pdf";
+        // 模板文件 相对路径
+        //String templatePath = "src/main/resources/static/template/QRCode.pdf";
+        // 模板文件 ClassPathResource类读取
+        ClassPathResource templatePath=new ClassPathResource("static/template/QRCode.pdf");
         // 生成的文件路径
         String newFileName="QRCode"+RandomUtil.getRandomFileName();
 
-        String targetPath = "E:\\Git\\express-fast\\src\\main\\resources\\static\\template\\"+newFileName+".pdf";
+        //String targetPath = "E:\\Git\\express-fast\\src\\main\\resources\\static\\template\\"+newFileName+".pdf";
+        String targetPath = "src/main/resources/static/template/"+newFileName+".pdf";
         // 读取模板文件
-        InputStream input = new FileInputStream(new File(templatePath));
+        //InputStream input = new FileInputStream(new File(templatePath));
+        InputStream input = templatePath.getInputStream();
+
         PdfReader reader = new PdfReader(input);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(targetPath));
 

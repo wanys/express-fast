@@ -14,7 +14,7 @@ public class RandomUtil {
 
         SimpleDateFormat simpleDateFormat;
 
-        simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
         Date date = new Date();
 
@@ -24,6 +24,6 @@ public class RandomUtil {
 
         int rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000;// 获取5位随机数
 
-        return rannum + str;// 当前时间
+        return String.valueOf(date.getTime())+rannum;// 当前时间
     }
 }

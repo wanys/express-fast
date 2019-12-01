@@ -185,6 +185,92 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
 
         String content= String.valueOf(idWorker.nextId());
 
+        String targetPath = "src/main/resources/static/template/setWatermark.pdf";
+
+        // 设置中文字体
+        BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+        Font font = new Font(bfChinese, 9);
+
+        //页面大小
+        Rectangle rect = new Rectangle(PageSize.A8);
+        //页面背景色
+        rect.setBackgroundColor(BaseColor.WHITE);
+        //Step 1—Create a Document.
+        Document document = new Document(rect);
+
+        //Document 文件写出到硬盘
+        FileOutputStream out=new FileOutputStream(targetPath);
+
+        try {
+            //生成 二维码
+            int[]  size=new int[]{430,430};
+            BufferedImage bufferedImage=new QRCodeFactory().CreatQrImage1(content, "jpg", "", "",size);
+
+            PdfWriter.getInstance(document,out);
+            //打开 Document 文件
+            document.open();
+
+            // 图片设置
+            Image image= getImage(bufferedImage,99);
+            image.setAlignment(Image.LEFT | Image.TEXTWRAP);
+            image.setBorder(Image.BOX);
+            image.setBorderWidth(5);
+            image.setBorderColor(BaseColor.WHITE);
+            image.scaleToFit(148, 148);
+            image.setAbsolutePosition(1, 60);
+            image.setRotationDegrees(0);//旋转
+            // Document 文件插入图片
+            document.add(image);
+
+            //字体一为空，用来撑开图片的位置
+            Paragraph paragraph1 = new Paragraph();
+            //居中显示
+            paragraph1.setAlignment(Element.ALIGN_CENTER);
+            paragraph1.add("");
+
+            //字体二为我们要显示的内容
+            Paragraph paragraph2 = new Paragraph();
+            //居中显示
+            paragraph2.setAlignment(Element.ALIGN_CENTER);
+            paragraph2.setFont(font);
+            paragraph2.add("快递单后四位:"+content.substring(content.length()-4));
+
+            //段落2与段落1的间距加大100个单位
+            paragraph2.setSpacingBefore(120);
+
+            document.add(paragraph1);
+            document.add(paragraph2);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            document.close();
+            out.close();
+        }
+        return targetPath;
+    }
+
+    public static Image getImage(BufferedImage bufferedImage, float percent) throws Exception{
+        Image itextImage=null;
+        itextImage=Image.getInstance(bufferedImage,new Color(255,255,255));
+        itextImage.setWidthPercentage(0.1f);
+        itextImage.setSpacingAfter(0.1f);
+        itextImage.scalePercent(percent);
+        itextImage.setBorder(Rectangle.NO_BORDER);
+        return itextImage;
+    }
+
+    //废弃 代码
+    public String PrintQRCode1() throws IOException, DocumentException {
+
+        String content= String.valueOf(idWorker.nextId());
+
         int[]  size=new int[]{430,430};
 
         BufferedImage bufferedImage=null;
@@ -241,19 +327,13 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
 
         under.addImage(image);
 
+        //stamper.setFormFlattening(true);
         stamper.close();
         reader.close();
 
         return targetPath;
     }
+    // 废弃
 
-    public static Image getImage(BufferedImage bufferedImage, float percent) throws Exception{
-        Image itextImage=null;
-        itextImage=Image.getInstance(bufferedImage,new Color(255,255,255));
-        itextImage.setWidthPercentage(0.1f);
-        itextImage.setSpacingAfter(0.1f);
-        itextImage.scalePercent(percent);
-        itextImage.setBorder(Rectangle.NO_BORDER);
-        return itextImage;
-    }
+
 }

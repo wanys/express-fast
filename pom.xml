@@ -249,7 +249,7 @@
 			<version>2.8.5</version>
 		</dependency>
 
-		<!-- BarcodeQRCode生成二维码嵌入PDF-->
+		<!-- PDF-->
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -263,11 +263,19 @@
 			<version>5.5.13</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- PDF字体-->
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-xtra -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-xtra</artifactId>
 			<version>5.5.13</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext-asian</artifactId>
+			<version>5.2.0</version>
 		</dependency>
 		<!-- zxing code 生成二维码-->
 		<!-- https://mvnrepository.com/artifact/com.google.zxing/core -->

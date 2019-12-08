@@ -26,17 +26,28 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
-    private AuthorizationInterceptor authorizationInterceptor;
+    private AuthorizationInterceptor authorizationInterceptor;//自定义拦截器实例
     @Autowired
-    private LoginUserHandlerMethodArgumentResolver loginUserHandlerMethodArgumentResolver;
+    private LoginUserHandlerMethodArgumentResolver loginUserHandlerMethodArgumentResolver;//自定义 参数解析器实例
 
+    /* 拦截器配置 */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        /*
+            addInterceptor：需要一个实现HandlerInterceptor接口的拦截器实例
+                我们自定义的 AuthorizationInterceptor类
+
+            addPathPatterns：用于设置拦截器的过滤路径规则；addPathPatterns("/**")对所有请求都拦截
+            excludePathPatterns：用于设置不需要拦截的过滤规则
+            拦截器主要用途：进行用户登录状态的拦截，日志的拦截等。
+        */
+
         registry.addInterceptor(authorizationInterceptor).addPathPatterns("/app/**");
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+
         argumentResolvers.add(loginUserHandlerMethodArgumentResolver);
     }
 }

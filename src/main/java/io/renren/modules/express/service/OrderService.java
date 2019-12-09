@@ -7,6 +7,7 @@ import io.renren.modules.app.annotation.LoginUser;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.express.entity.OrderEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,5 +24,7 @@ public interface OrderService extends IService<OrderEntity> {
     boolean saveOrder(OrderEntity orderEntity);
 
     boolean WeChatSaveOrder(OrderEntity orderEntity, UserEntity userEntity);
+
+    List<OrderEntity> queryListOrder(Long userId);
 }
 

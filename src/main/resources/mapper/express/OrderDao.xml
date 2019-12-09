@@ -5,21 +5,66 @@
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.express.entity.OrderEntity" id="orderMap">
-        <result property="id" column="id"/>
         <result property="orderId" column="order_id"/>
         <result property="userId" column="user_id"/>
         <result property="senderName" column="sender_name"/>
         <result property="senderPhone" column="sender_phone"/>
-        <result property="senderAddr" column="sender_addr"/>
+        <result property="senderProvince" column="sender_province"/>
+        <result property="senderCity" column="sender_city"/>
+        <result property="senderArea" column="sender_area"/>
+        <result property="senderDetaileAddr" column="sender_detaile_addr"/>
         <result property="receiverName" column="receiver_name"/>
         <result property="receiverPhone" column="receiver_phone"/>
-        <result property="receiverAddr" column="receiver_addr"/>
+        <result property="receiverProvince" column="receiver_province"/>
+        <result property="receiverCity" column="receiver_city"/>
+        <result property="receiverArea" column="receiver_area"/>
+        <result property="receiverDetaileAddr" column="receiver_detaile_addr"/>
         <result property="goodsType" column="goods_type"/>
         <result property="transportNo" column="transport_no"/>
         <result property="orderStatus" column="order_status"/>
-        <result property="createTime" column="create_time"/>
         <result property="express" column="express"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyBy" column="modify_by"/>
+        <association property="userEntity" javaType="io.renren.modules.app.entity.UserEntity">
+            <result property="userId" column="user_id"/>
+            <result property="username" column="username"/>
+            <result property="openid" column="openid"/>
+            <result property="role" column="role"/>
+            <result property="phone" column="phone"/>
+            <result property="password" column="password"/>
+            <result property="createTime" column="create_time"/>
+        </association>
     </resultMap>
+
+    <select id="queryListOrder" resultMap="orderMap">
+         SELECT
+            tb_order.order_id,
+            tb_order.transport_no,
+            tb_user.username,
+            tb_order.sender_name,
+            tb_order.sender_phone,
+            tb_order.sender_province,
+            tb_order.sender_city,
+            tb_order.sender_area,
+            tb_order.sender_detaile_addr,
+            tb_order.receiver_name,
+            tb_order.receiver_phone,
+            tb_order.receiver_province,
+            tb_order.receiver_city,
+            tb_order.receiver_area,
+            tb_order.receiver_detaile_addr,
+            tb_order.goods_type,
+            tb_order.express
+        FROM
+          tb_order
+          INNER JOIN tb_task
+            ON tb_task.order_id = tb_order.order_id
+          INNER JOIN tb_user
+            ON tb_user.user_id = tb_task.task_receiver_id
+          WHERE tb_order.user_id=#{userId}
+    </select>
 
 
 </mapper>

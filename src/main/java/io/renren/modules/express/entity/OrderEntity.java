@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import io.renren.modules.app.entity.UserEntity;
 import lombok.Data;
 
 /**
@@ -112,4 +114,14 @@ public class OrderEntity implements Serializable {
 	 */
 	private String modifyBy;
 
+
+	private UserEntity userEntity;
+
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
 }

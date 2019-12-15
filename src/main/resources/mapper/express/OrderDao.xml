@@ -42,6 +42,7 @@
          SELECT
             tb_order.order_id,
             tb_order.transport_no,
+            tb_order.order_status,
             tb_user.username,
             tb_order.sender_name,
             tb_order.sender_phone,

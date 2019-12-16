@@ -9,7 +9,6 @@
 - 引入Hibernate Validator校验框架，轻松实现后端校验
 - 引入云存储服务，已支持：七牛云、阿里云、腾讯云等
 - 引入swagger文档支持，方便编写API接口文档
-<br> 
 
 **项目结构** 
 ```
@@ -36,7 +35,6 @@ renren-fast
 │  ├─mapper SQL对应的XML文件
 │  └─static 静态资源
 
-
 **技术选型：** 
 - 核心框架：Spring Boot 2.1
 - 安全框架：Apache Shiro 1.4
@@ -45,9 +43,7 @@ renren-fast
 - 定时器：Quartz 2.3
 - 数据库连接池：Druid 1.0
 - 日志管理：SLF4J 1.7、Log4j
-- 页面交互：Vue2.x 
-<br> 
-
+- 页面交互：Vue2.x  
 
  **后端部署**
 - 通过git下载源码
@@ -58,5 +54,3 @@ renren-fast
 - Eclipse、IDEA运行RenrenApplication.java，则可启动项目
 - Swagger文档路径：http://localhost:8080/express-fast/swagger/index.html
 - Swagger注解路径：http://localhost:8080/express-fast/swagger-ui.html
-
- <br>

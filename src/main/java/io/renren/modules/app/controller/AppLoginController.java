@@ -14,6 +14,8 @@ import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.DatetimeUtil;
 import io.renren.common.utils.R;
 import io.renren.common.utils.RedisUtils;
+import io.renren.modules.app.entity.Template;
+import io.renren.modules.app.entity.TemplateParam;
 import io.renren.modules.app.utils.UrlUtil;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.app.entity.UserEntity;
@@ -28,11 +30,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,6 +53,7 @@ public class AppLoginController {
     @Value("${AppSecret}")
     private String AppSecret;
 
+    String openid;
     /**
      * 登录
      */
@@ -97,7 +96,7 @@ public class AppLoginController {
         if(jsonObject!=null&&!jsonObject.containsKey("openid")) {
             return R.error().put("no_power","未授权！");
         }
-        String openid = (String)jsonObject.get("openid");
+          openid = (String)jsonObject.get("openid");
         //String sessionKey = (String)jsonObject.get("session_key");
 
         JSONObject user_info_detail= JSONObject.parseObject(userInfoDetail);
@@ -153,6 +152,68 @@ public class AppLoginController {
 
         return R.ok(map);
     }
+
+
+    //获取订阅消息推送的token
+    private JSONObject getUserWXOAthToken( ) {
+        String requestUrl = "https://api.weixin.qq.com/cgi-bin/token";
+        Map<String,String> requestUrlParam = new HashMap<String,String>();
+        requestUrlParam.put("appid", AppID);	//开发者设置中的appId
+        requestUrlParam.put("secret", AppSecret);	//开发者设置中的appSecret
+        requestUrlParam.put("grant_type", "client_credential");	//默认参数
+        //获取小程序全局唯一后台接口调用凭据（access_token）。调用绝大多数后台接口时都需使用 access_token，开发者需要进行妥善保存。
+        JSONObject jsonObject = JSON.parseObject(UrlUtil.sendPost(requestUrl, requestUrlParam));
+        return jsonObject;
+    }
+
+
+
+
+
+    @GetMapping("GetDYMsg")
+    @ApiOperation("获取订阅消息推送")
+    public R  msg() {
+        JSONObject jsonObject = getUserWXOAthToken();
+        String access_token = (String) jsonObject.get("access_token");
+        String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token="+access_token;
+        Template template = new Template();
+        //   template.setTemplate_id("jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");
+        //    template.setTouser("openid");
+        List<TemplateParam> paras = new ArrayList<TemplateParam>();
+        paras.add(new TemplateParam("thing1", "shuju"));
+        paras.add(new TemplateParam("thing8", "学习"));
+        paras.add(new TemplateParam("thing10", "xuexi"));
+        template.setTemplateParamList(paras);
+       /* Map<String,String> requestUrlParam = new HashMap<String,String>();
+        requestUrlParam.put("access_token", access_token);	//开发者设置中的access_token
+        requestUrlParam.put("touser", openid);	//开发者openid
+        requestUrlParam.put("template_id", "jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");	//模板id
+        requestUrlParam.put("data", template);*/
+
+
+        Map<String,String> requestUrlParam = new HashMap<String,String>();
+     //   requestUrlParam.put("access_token", access_token);	//开发者设置中的access_token
+        requestUrlParam.put("touser", openid);	//开发者openid
+        requestUrlParam.put("template_id", "jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");	//模板id
+        requestUrlParam.put("data", JSON.toJSONString(template));
+        JSONObject jsonObject1 = JSON.parseObject(UrlUtil.sendPost(requestUrl,requestUrlParam));
+//        if (jsonObject1 != null) {
+//            System.out.println(jsonObject1);
+//            String errorCode = jsonObject1.getString("errcode");
+//            String errorMessage = jsonObject1.getString("errmsg");
+//            return R.ok();
+//        }
+        return R.ok(jsonObject1);
+//        if (errorCode.equals('0')) {
+//            System.out.println("Send Success");
+//            return "success";
+//        } else {
+//            System.out.println("订阅消息发送失败:" + errorCode + "," + errorMessage);
+//            return "失败";
+//        }
+    }
+
+
 
 
 }

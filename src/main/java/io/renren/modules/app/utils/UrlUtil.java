@@ -23,7 +23,7 @@ public class UrlUtil {
      * @param paramMap 请求参数
      * @return 所代表远程资源的响应结果
      */
-    public static String sendPost(String url, Map<String, ?> paramMap) {
+    public static String sendPost(String url, Map<String, String> paramMap) {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";

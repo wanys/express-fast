@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @Api("快递功能接口")
 public class expressController {
 
+    @GetMapping("/test")
+    @ApiOperation("内外网链接测试")
+    public int test(){
+        System.out.println("内外网链接测试");
+        return 0;
+    }
+
+
     // @Login
     @GetMapping("/OrderD")
     @ApiOperation("获取快递单公司信息")

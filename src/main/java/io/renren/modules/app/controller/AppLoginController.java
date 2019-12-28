@@ -8,7 +8,6 @@
 
 package io.renren.modules.app.controller;
 
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.renren.common.utils.DatetimeUtil;
@@ -16,13 +15,12 @@ import io.renren.common.utils.R;
 import io.renren.common.utils.RedisUtils;
 import io.renren.modules.app.entity.Template;
 import io.renren.modules.app.entity.TemplateParam;
-import io.renren.modules.app.utils.UrlUtil;
+import io.renren.modules.app.utils.*;
+
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.app.form.LoginForm;
 import io.renren.modules.app.service.UserService;
-import io.renren.modules.app.utils.JwtUtils;
-import io.renren.modules.app.utils.WXUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +63,6 @@ public class AppLoginController {
 
         //用户登录
         long userId = userService.login(form);
-
                //生成token
         String token = jwtUtils.generateToken(userId+"");
 
@@ -106,9 +103,7 @@ public class AppLoginController {
         JSONObject userinfo= JSONObject.parseObject(user_info);
         String userName=userinfo.getString("nickName");
 
-
         //JSONObject resolved=WXUtils.getUserInfo(encryptedData,sessionKey,iv);
-
         //通过openid查询数据库是否有此用户
         UserEntity oldUser = userService.queryByOpenid(openid);
         if(oldUser!=null) {//用户已存在
@@ -138,7 +133,6 @@ public class AppLoginController {
         }else {
             newUser.setPhone(newUser.getPhone());
         }
-
         userService.save(newUser);
 
         //RedisUtils.
@@ -175,34 +169,43 @@ public class AppLoginController {
     public R  msg() {
         JSONObject jsonObject = getUserWXOAthToken();
         String access_token = (String) jsonObject.get("access_token");
+        System.out.println(jsonObject);
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token="+access_token;
-        Template template = new Template();
-        //   template.setTemplate_id("jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");
-        //    template.setTouser("openid");
+       /* Template template = new Template();
+          template.setTemplate_id("jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");
+          template.setTouser(openid);
         List<TemplateParam> paras = new ArrayList<TemplateParam>();
         paras.add(new TemplateParam("thing1", "shuju"));
         paras.add(new TemplateParam("thing8", "学习"));
         paras.add(new TemplateParam("thing10", "xuexi"));
-        template.setTemplateParamList(paras);
-       /* Map<String,String> requestUrlParam = new HashMap<String,String>();
-        requestUrlParam.put("access_token", access_token);	//开发者设置中的access_token
-        requestUrlParam.put("touser", openid);	//开发者openid
-        requestUrlParam.put("template_id", "jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");	//模板id
-        requestUrlParam.put("data", template);*/
+        template.setTemplateParamList(paras);*/
 
 
-        Map<String,String> requestUrlParam = new HashMap<String,String>();
+        Map<String,Object> ParamList = new HashMap<String,Object>();
+        Map<String,Object> thing1=new HashMap<String, Object>();
+        Map<String,Object> thing8=new HashMap<String, Object>();
+        Map<String,Object> thing10=new HashMap<String, Object>();
+        thing1.put("value","shuju");
+        thing8.put("value","学习");
+        thing10.put("value","shuju");
+        ParamList.put("thing1",thing1);
+        ParamList.put("thing8",thing8);
+        ParamList.put("thing10",thing10);
+
+        Map<String,Object> requestUrlParam = new HashMap<String,Object>();
      //   requestUrlParam.put("access_token", access_token);	//开发者设置中的access_token
         requestUrlParam.put("touser", openid);	//开发者openid
         requestUrlParam.put("template_id", "jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");	//模板id
-        requestUrlParam.put("data", JSON.toJSONString(template));
-        JSONObject jsonObject1 = JSON.parseObject(UrlUtil.sendPost(requestUrl,requestUrlParam));
-//        if (jsonObject1 != null) {
-//            System.out.println(jsonObject1);
-//            String errorCode = jsonObject1.getString("errcode");
-//            String errorMessage = jsonObject1.getString("errmsg");
-//            return R.ok();
-//        }
+        requestUrlParam.put("data", ParamList);
+        JSONObject jsonParamList=new JSONObject(requestUrlParam);
+     /*   JSONObject jsonParamList=new JSONObject(template);
+        String ww= jsonParamList.toJSONString();
+        System.out.println(ww);*/
+        JSONObject jsonObject1 = JSON.parseObject(UrlUtil.sendPost(requestUrl, jsonParamList));
+        System.out.println(jsonObject1);
+        //      net.sf.json.JSONObject jsonResult = HttpClientTool.doPost(requestUrl,JSONObject.toJSON(template).toString());
+      //  JSONObject jsonResult1 = HttpClientUtils.doPost(requestUrl,(JSONObject)JSONObject.toJSON(template));
+
         return R.ok(jsonObject1);
 //        if (errorCode.equals('0')) {
 //            System.out.println("Send Success");
@@ -212,8 +215,5 @@ public class AppLoginController {
 //            return "失败";
 //        }
     }
-
-
-
 
 }

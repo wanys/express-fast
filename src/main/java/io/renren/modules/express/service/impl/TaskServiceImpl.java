@@ -1,6 +1,5 @@
 package io.renren.modules.express.service.impl;
 
-import cn.hutool.core.date.DateTime;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
@@ -8,9 +7,10 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import io.renren.common.utils.*;
-import io.renren.modules.app.annotation.LoginUser;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.express.entity.OrderEntity;
+import io.renren.modules.express.entity.TaskCharBar;
+import io.renren.modules.express.entity.OrderCharLine;
 import io.renren.modules.express.service.OrderService;
 import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.StringUtils;
@@ -22,9 +22,11 @@ import org.springframework.stereotype.Service;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,8 +35,6 @@ import io.renren.modules.express.dao.TaskDao;
 import io.renren.modules.express.entity.TaskEntity;
 import io.renren.modules.express.service.TaskService;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.imageio.ImageIO;
 
 
 @Service("taskService")
@@ -255,6 +255,97 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         }
         return targetPath;
     }
+
+    @Override
+    public TaskCharBar queryPageEcharsBar() {
+
+        // 月份分组
+        SimpleDateFormat simpleFormat=new SimpleDateFormat("yyMM");
+        Calendar NewCal = Calendar.getInstance();// 获取当前的系统时间
+        Map<String,Integer> orderMap=new HashMap<>();
+
+        for (int i = 0; i < 12; i++) {
+
+            int year = NewCal.get(Calendar.YEAR)%2000;       //获取年
+            int month = NewCal.get(Calendar.MONTH) + 1; //获取月份，0表示1月份
+            NewCal.add(Calendar.MONTH, -1);     //每次往前推进一个月
+
+            String tempMonth;
+
+            if(month<10){
+
+                tempMonth="0"+month;
+
+            }else {
+
+                tempMonth=Integer.toString(month) ;
+            }
+            orderMap.put((year+tempMonth),0);
+        }
+
+        // Map排序
+        List<Map.Entry<String,Integer>> lstEntry=new ArrayList<>(orderMap.entrySet());
+        Collections.sort(lstEntry,((o1, o2) -> {
+            return o1.getKey().compareTo(o2.getKey());
+        }));
+
+        LinkedHashMap<String,Integer> collectHashMap=new LinkedHashMap<>();
+        lstEntry.forEach(o->{
+            collectHashMap.put(o.getKey(),o.getValue());
+        });
+
+
+        LinkedHashMap<String,Integer> sendHashMap=new LinkedHashMap<>();
+        lstEntry.forEach(o->{
+            sendHashMap.put(o.getKey(),o.getValue());
+        });
+
+        QueryWrapper<TaskEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("task_status", "30");
+        List<TaskEntity> entityList= baseMapper.selectList(queryWrapper);
+
+        Integer[] Collect =new Integer[]{0,0,0,0,0,0,0,0,0,0,0,0};
+        Integer[] Send =new Integer[]{0,0,0,0,0,0,0,0,0,0,0,0};
+
+
+
+
+        // 数据库分组
+        for (TaskEntity taskEntity:entityList ) {
+
+            if(taskEntity.getTaskType().equals("collect")){
+
+                for (String month:collectHashMap.keySet()) {
+
+                    if(month.equals(simpleFormat.format(taskEntity.getCreateTime()))){
+
+                        collectHashMap.put(month,collectHashMap.get(month)+1);
+                    }
+                }
+            }
+
+            if(taskEntity.getTaskType().equals("send")){
+                for (String month:sendHashMap.keySet()) {
+
+                    if(month.equals(simpleFormat.format(taskEntity.getCreateTime()))){
+
+                        sendHashMap.put(month,sendHashMap.get(month)+1);
+                    }
+                }
+            }
+        }
+
+
+        TaskCharBar taskCharBar=new TaskCharBar();
+        taskCharBar.setCollect(collectHashMap.values().toArray(new Integer[collectHashMap.size()]));
+        taskCharBar.setSend(sendHashMap.values().toArray(new Integer[sendHashMap.size()]));
+        taskCharBar.setMonth(collectHashMap.keySet().toArray(new String[collectHashMap.size()]));
+
+        return taskCharBar;
+    }
+
+
+
 
     public static Image getImage(BufferedImage bufferedImage, float percent) throws Exception{
         Image itextImage=null;

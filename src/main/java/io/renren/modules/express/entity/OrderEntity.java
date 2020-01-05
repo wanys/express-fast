@@ -1,9 +1,11 @@
 package io.renren.modules.express.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -114,14 +116,6 @@ public class OrderEntity implements Serializable {
 	 */
 	private String modifyBy;
 
-
+    @TableField(exist = false)
 	private UserEntity userEntity;
-
-	public UserEntity getUserEntity() {
-		return userEntity;
-	}
-
-	public void setUserEntity(UserEntity userEntity) {
-		this.userEntity = userEntity;
-	}
 }

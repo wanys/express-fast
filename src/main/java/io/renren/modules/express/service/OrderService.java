@@ -2,10 +2,9 @@ package io.renren.modules.express.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
-import io.renren.modules.app.annotation.LoginUser;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.express.entity.OrderEntity;
+import io.renren.modules.express.entity.OrderCharLine;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +25,7 @@ public interface OrderService extends IService<OrderEntity> {
     boolean WeChatSaveOrder(OrderEntity orderEntity, UserEntity userEntity);
 
     List<OrderEntity> queryListOrder(Long userId);
+
+    OrderCharLine queryPageEcharsLine();//折线统计图
 }
 

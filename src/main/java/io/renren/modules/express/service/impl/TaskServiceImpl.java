@@ -294,7 +294,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
             collectHashMap.put(o.getKey(),o.getValue());
         });
 
-
         LinkedHashMap<String,Integer> sendHashMap=new LinkedHashMap<>();
         lstEntry.forEach(o->{
             sendHashMap.put(o.getKey(),o.getValue());
@@ -303,12 +302,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         QueryWrapper<TaskEntity> queryWrapper= new QueryWrapper<>();
         queryWrapper.eq("task_status", "30");
         List<TaskEntity> entityList= baseMapper.selectList(queryWrapper);
-
-        Integer[] Collect =new Integer[]{0,0,0,0,0,0,0,0,0,0,0,0};
-        Integer[] Send =new Integer[]{0,0,0,0,0,0,0,0,0,0,0,0};
-
-
-
 
         // 数据库分组
         for (TaskEntity taskEntity:entityList ) {

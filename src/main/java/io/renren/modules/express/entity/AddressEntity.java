@@ -22,11 +22,11 @@ public class AddressEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@TableId
 	private Integer id;
 	/**
 	 * 用户id
 	 */
-	@TableId
 	private Long userId;
 	/**
 	 * 地址名字

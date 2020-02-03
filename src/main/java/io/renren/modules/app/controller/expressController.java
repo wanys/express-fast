@@ -25,7 +25,7 @@ public class expressController {
     // @Login
     @GetMapping("/OrderD")
     @ApiOperation("获取快递单公司信息")
-    public String OrderDistinct(@RequestParam(value="OrderId") String OrderId){ //"3967950525457"
+    public String OrderDistinct(@RequestParam(value="OrderId") String OrderId){ //" "
         //              public String TrackQuery(@RequestAttribute("OrderId") String OrderId){
         KdApiOrderDistinguish api = new KdApiOrderDistinguish();
         String resultcode = null;

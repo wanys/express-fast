@@ -183,8 +183,8 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
     @Override
     public String PrintQRCode() throws IOException, DocumentException {
 
-        String content= String.valueOf(idWorker.nextId());
-
+       // String content= String.valueOf(idWorker.nextId());
+        String content= "内部信息无权访问";
         String targetPath = "src/main/resources/static/template/setWatermark.pdf";
 
         // 设置中文字体
@@ -233,8 +233,8 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
             //居中显示
             paragraph2.setAlignment(Element.ALIGN_CENTER);
             paragraph2.setFont(font);
-            paragraph2.add("快递单后四位:"+content.substring(content.length()-4));
-
+           // paragraph2.add("快递单后四位:"+content.substring(content.length()-4));
+            paragraph2.add("快递单后四位:"+"xxxx");
             //段落2与段落1的间距加大100个单位
             paragraph2.setSpacingBefore(120);
 

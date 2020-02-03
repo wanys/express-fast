@@ -182,29 +182,31 @@ public class AppLoginController {
 
 
         Map<String,Object> ParamList = new HashMap<String,Object>();
-        Map<String,Object> thing1=new HashMap<String, Object>();
-        Map<String,Object> thing8=new HashMap<String, Object>();
-        Map<String,Object> thing10=new HashMap<String, Object>();
-        thing1.put("value","shuju");
-        thing8.put("value","学习");
-        thing10.put("value","shuju");
-        ParamList.put("thing1",thing1);
-        ParamList.put("thing8",thing8);
-        ParamList.put("thing10",thing10);
+        Map<String,Object> character_string11=new HashMap<String, Object>();
+        Map<String,Object> thing4=new HashMap<String, Object>();
+        Map<String,Object> phrase2=new HashMap<String, Object>();
+        Map<String,Object> character_string3=new HashMap<String, Object>();
+        character_string11.put("value","1-12");
+        thing4.put("value","A区菜鸟驿站");
+        phrase2.put("value","申通快递");
+        character_string3.put("value","1212345678945");
+        ParamList.put("character_string11",character_string11);
+        ParamList.put("thing4",thing4);
+        ParamList.put("phrase2",phrase2);
+        ParamList.put("character_string3",character_string3);
 
         Map<String,Object> requestUrlParam = new HashMap<String,Object>();
      //   requestUrlParam.put("access_token", access_token);	//开发者设置中的access_token
         requestUrlParam.put("touser", openid);	//开发者openid
-        requestUrlParam.put("template_id", "jeg6W3W53iJLWXb_N85pQ6xHOBN-6Pv_UEld-kJb3rU");	//模板id
+        requestUrlParam.put("template_id", "q8uZasDi8dKU8pr_FA4hQC3FslVj20ud34ThIy7tRCY");	//模板id
         requestUrlParam.put("data", ParamList);
+        requestUrlParam.put("page", "pages/index/index");
         JSONObject jsonParamList=new JSONObject(requestUrlParam);
      /*   JSONObject jsonParamList=new JSONObject(template);
         String ww= jsonParamList.toJSONString();
         System.out.println(ww);*/
         JSONObject jsonObject1 = JSON.parseObject(UrlUtil.sendPost(requestUrl, jsonParamList));
         System.out.println(jsonObject1);
-        //      net.sf.json.JSONObject jsonResult = HttpClientTool.doPost(requestUrl,JSONObject.toJSON(template).toString());
-      //  JSONObject jsonResult1 = HttpClientUtils.doPost(requestUrl,(JSONObject)JSONObject.toJSON(template));
 
         return R.ok(jsonObject1);
 //        if (errorCode.equals('0')) {

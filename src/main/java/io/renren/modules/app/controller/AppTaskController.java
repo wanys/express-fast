@@ -27,8 +27,9 @@ public class AppTaskController {
     @Login
     @ApiOperation("任务列表")
     @GetMapping("task/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params,@LoginUser UserEntity user){
 
+        params.put("taskReceiverId",user.getUserId().toString());
         PageUtils page = taskService.queryPageWeChat(params);
 
         return R.ok().put("page", page);

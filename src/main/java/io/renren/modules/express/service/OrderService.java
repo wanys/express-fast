@@ -26,6 +26,12 @@ public interface OrderService extends IService<OrderEntity> {
 
     List<OrderEntity> queryListOrder(Long userId);
 
+    List<OrderEntity> queryListGetOrder(Long userId);
+
     OrderCharLine queryPageEcharsLine();//折线统计图
+
+    boolean rukuOrder(String transportNo,UserEntity userEntity);
+    //取件
+    boolean qujian(String transportNo,UserEntity userEntity);
 }
 

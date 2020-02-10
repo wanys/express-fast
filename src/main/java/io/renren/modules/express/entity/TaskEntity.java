@@ -38,12 +38,16 @@ public class TaskEntity implements Serializable {
 	 */
 	private String transportNo;
 	/**
+	 * 发/收人姓名
+	 */
+	private String resendName;
+	/**
 	 * 发/收手机号
 	 */
 	private String phoneNum;
 	/**
 	 * 取货/派送地址 省
-	 */
+	 */ 
 	private String province;
 	/**
 	 * 取货/派送地址 市

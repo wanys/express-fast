@@ -73,8 +73,8 @@ public class AddressController {
      */
     @RequestMapping("address/delete")
    // @RequiresPermissions("express:address:delete")
-    public R delete(@RequestBody Long[] userIds){
-		addressService.removeByIds(Arrays.asList(userIds));
+    public R delete(@RequestBody AddressEntity address){
+		addressService.removeById(address.getId());
 
         return R.ok();
     }

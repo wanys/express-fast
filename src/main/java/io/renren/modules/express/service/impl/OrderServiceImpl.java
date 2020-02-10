@@ -80,6 +80,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         taskEntity.setTaskId(Long.toString(idWorker.nextId()));
         taskEntity.setOrderId(orderEntity.getOrderId());
         taskEntity.setTaskStatus("10");
+        taskEntity.setTaskType("collect");
+        taskEntity.setResendName(orderEntity.getSenderName());
         taskEntity.setPhoneNum(orderEntity.getSenderPhone());
         taskEntity.setProvince(orderEntity.getSenderProvince());
         taskEntity.setCity(orderEntity.getSenderCity());
@@ -94,9 +96,28 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Override
     public List<OrderEntity> queryListOrder(Long userId) {
-
         List<OrderEntity> listOrder =  baseMapper.queryListOrder(userId);
+        // 捞取数据库数据
+        QueryWrapper<OrderEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId)
+                .eq("order_status",10);
 
+        List<OrderEntity> listOrder1   = baseMapper.selectList(queryWrapper);
+
+        for (OrderEntity orderEntity:listOrder1){
+            listOrder.add(orderEntity);
+        }
+        return listOrder;
+    }
+
+    /*用户获取待取件订单*/
+    @Override
+    public List<OrderEntity> queryListGetOrder(Long userId) {
+        QueryWrapper<OrderEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId)
+                .eq("order_status",65);
+
+        List<OrderEntity> listOrder   = baseMapper.selectList(queryWrapper);
         return listOrder;
     }
 
@@ -163,6 +184,53 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         orderCharLine.setOrderCount(linkedHashMap.values().toArray(new Integer[linkedHashMap.size()]));
 
         return orderCharLine;
+    }
+
+    @Override
+    @Transactional
+    public boolean rukuOrder(String transportNo,UserEntity userEntity) {
+        QueryWrapper<OrderEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("transport_no", transportNo);
+        OrderEntity orderEntity =  baseMapper.selectOne(queryWrapper);
+        orderEntity.setOrderStatus("50");
+        orderEntity.setModifyBy(userEntity.getUserId().toString());
+        orderEntity.setModifyTime(new DateTime());
+        this.saveOrUpdate(orderEntity);
+
+        TaskEntity taskEntity=new TaskEntity();
+
+        taskEntity.setOrderId(orderEntity.getOrderId());
+        taskEntity.setResendName(orderEntity.getReceiverName());
+        taskEntity.setPhoneNum(orderEntity.getReceiverPhone());
+        taskEntity.setProvince(orderEntity.getReceiverProvince());
+        taskEntity.setCity(orderEntity.getReceiverCity());
+        taskEntity.setArea(orderEntity.getReceiverArea());
+        taskEntity.setDetaileAddr(orderEntity.getReceiverDetaileAddr());
+        taskEntity.setTaskStatus("10");
+        taskEntity.setTaskType("send");
+        taskEntity.setTransportNo(orderEntity.getTransportNo());
+        taskEntity.setTaskId(Long.toString(idWorker.nextId()));
+        taskEntity.setCreateTime(new DateTime());
+        taskEntity.setCreateBy(userEntity.getUserId().toString());
+        taskService.saveOrUpdate(taskEntity);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean qujian(String transportNo, UserEntity userEntity) {
+
+        QueryWrapper<OrderEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("transport_no", transportNo);
+        OrderEntity orderEntity =  baseMapper.selectOne(queryWrapper);
+
+        orderEntity.setOrderStatus("70");
+        orderEntity.setModifyBy(userEntity.getUserId().toString());
+        orderEntity.setModifyTime(new Date());
+
+        this.saveOrUpdate(orderEntity);
+        return true;
     }
 
     public static void main(String[] args) {

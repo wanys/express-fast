@@ -21,6 +21,7 @@
         <result property="receiverDetaileAddr" column="receiver_detaile_addr"/>
         <result property="goodsType" column="goods_type"/>
         <result property="transportNo" column="transport_no"/>
+        <result property="getNum" column="get_num"/>
         <result property="orderStatus" column="order_status"/>
         <result property="express" column="express"/>
         <result property="createTime" column="create_time"/>
@@ -43,7 +44,9 @@
             tb_order.order_id,
             tb_order.transport_no,
             tb_order.order_status,
+            tb_order.user_id,
             tb_user.username,
+            tb_user.phone,
             tb_order.sender_name,
             tb_order.sender_phone,
             tb_order.sender_province,

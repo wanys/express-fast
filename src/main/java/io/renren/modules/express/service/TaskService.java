@@ -34,5 +34,11 @@ public interface TaskService extends IService<TaskEntity> {
     String PrintQRCode() throws IOException, DocumentException;
 
     TaskCharBar queryPageEcharsBar();//柱状图
+
+
+    //快递员派件到驿站
+    boolean paijianToDak(String transportNo,UserEntity userEntity);
+    //快递员派件到用户
+    boolean paijianToUser(String transportNo,UserEntity userEntity);
 }
 

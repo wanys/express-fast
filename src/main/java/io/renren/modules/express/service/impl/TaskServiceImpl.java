@@ -1,5 +1,6 @@
 package io.renren.modules.express.service.impl;
 
+import cn.hutool.core.date.DateTime;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
@@ -179,6 +180,66 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
 
         return true;
     }
+
+
+
+    @Override
+    @Transactional
+    public boolean paijianToDak(String transportNo, UserEntity userEntity) {
+        QueryWrapper<TaskEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("transport_no", transportNo);
+        TaskEntity taskEntity =  baseMapper.selectOne(queryWrapper);
+        //修改订单表的状态为派件完成
+        taskEntity.setTaskStatus("30");
+        taskEntity.setModifyBy(userEntity.getUserId().toString());
+        taskEntity.setModifyTime(new DateTime());
+        this.saveOrUpdate(taskEntity);
+        //查询出刚修改的任务，为了拿到对应的订单号
+     //   TaskEntity newTaskEntity= this.getById(taskEntity.getTaskId());
+
+        //修改订单状态65，用户取件派件完成
+        OrderEntity orderEntity=new OrderEntity();
+        //  orderEntity.setOrderId(newTaskEntity.getOrderId());
+        orderEntity.setOrderId(taskEntity.getOrderId());
+        //  orderEntity.setTransportNo(newTaskEntity.getTransportNo());
+        orderEntity.setTransportNo(taskEntity.getTransportNo());
+        orderEntity.setOrderStatus("65");
+        orderEntity.setModifyBy(userEntity.getUserId().toString());
+        orderEntity.setModifyTime(new Date());
+
+        orderService.saveOrUpdate(orderEntity);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean paijianToUser(String transportNo, UserEntity userEntity) {
+        QueryWrapper<TaskEntity> queryWrapper= new QueryWrapper<>();
+        queryWrapper.eq("transport_no", transportNo);
+        TaskEntity taskEntity =  baseMapper.selectOne(queryWrapper);
+        //修改订单表的状态为派件完成
+        taskEntity.setTaskStatus("30");
+        taskEntity.setModifyBy(userEntity.getUserId().toString());
+        taskEntity.setModifyTime(new DateTime());
+        this.saveOrUpdate(taskEntity);
+
+        //查询出刚修改的任务，为了拿到对应的订单号
+        TaskEntity newTaskEntity= this.getById(taskEntity.getTaskId());
+
+        //修改订单状态70，用户取件派件完成
+        OrderEntity orderEntity=new OrderEntity();
+        //  orderEntity.setOrderId(newTaskEntity.getOrderId());
+        orderEntity.setOrderId(taskEntity.getOrderId());
+        //  orderEntity.setTransportNo(newTaskEntity.getTransportNo());
+        orderEntity.setTransportNo(taskEntity.getTransportNo());
+        orderEntity.setOrderStatus("70");
+        orderEntity.setModifyBy(userEntity.getUserId().toString());
+        orderEntity.setModifyTime(new Date());
+
+        orderService.saveOrUpdate(orderEntity);
+        return true;
+    }
+
 
     @Override
     public String PrintQRCode() throws IOException, DocumentException {

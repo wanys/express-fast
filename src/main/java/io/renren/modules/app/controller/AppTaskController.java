@@ -36,7 +36,7 @@ public class AppTaskController {
     }
 
     /**
-     * 列表
+     * 绑定运单
      */
     @Login
     @ApiOperation("绑定运单")
@@ -48,5 +48,28 @@ public class AppTaskController {
             return R.ok();
         }
         return R.error("快递单绑定失败");
+    }
+
+
+    /**
+     * 快递员派件到驿站
+     */
+    @Login
+    @ApiOperation("快递员派件到驿站")
+    @PostMapping("task/paijianToDak/{transportNo}")
+    public R paiJianToDak(@PathVariable("transportNo") String transportNo,@LoginUser UserEntity userEntity){
+        taskService.paijianToDak(transportNo,userEntity);
+        return R.ok();
+    }
+
+    /**
+     * 快递员派件到用户
+     */
+    @Login
+    @ApiOperation("快递员派件到用户")
+    @PostMapping("task/paijianToUser/{transportNo}")
+    public R paiJianToUser(@PathVariable("transportNo") String transportNo,@LoginUser UserEntity userEntity){
+        taskService.paijianToUser(transportNo,userEntity);
+        return R.ok();
     }
 }

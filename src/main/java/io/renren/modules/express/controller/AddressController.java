@@ -25,7 +25,7 @@ import io.renren.common.utils.R;
  * @date 2019-12-26 20:27:45
  */
 @RestController
-@RequestMapping("/app")
+@RequestMapping("express/address")
 public class AddressController {
     @Autowired
     private AddressService addressService;
@@ -83,7 +83,7 @@ public class AddressController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{userId}")
+    @RequestMapping("info/{userId}")
     // @RequiresPermissions("express:address:info")
     public R info(@PathVariable("userId") Long userId){
         AddressEntity address = addressService.getById(userId);

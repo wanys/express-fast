@@ -36,7 +36,7 @@ public class AppTaskController {
     }
 
     /**
-     * 绑定运单
+     * 绑定运单，揽件
      */
     @Login
     @ApiOperation("绑定运单")

@@ -2,8 +2,10 @@ package io.renren.modules.express.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.express.entity.CommentEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,7 @@ import java.util.Map;
 public interface CommentService extends IService<CommentEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    boolean saveComment(CommentEntity commentEntity, UserEntity userEntity);
+    List<CommentEntity> queryListComment(Long userId);
 }
 

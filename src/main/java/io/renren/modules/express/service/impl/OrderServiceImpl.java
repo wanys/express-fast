@@ -42,6 +42,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         IPage<OrderEntity> page = this.page(
                 new Query<OrderEntity>().getPage(params),
                 new QueryWrapper<OrderEntity>()
+                        .orderByDesc("create_time")
         );
 
         return new PageUtils(page);
@@ -65,6 +66,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return true;
     }
 
+    //用户下单生成订单并生成任务
     @Override
     @Transactional
     public boolean WeChatSaveOrder(OrderEntity orderEntity,UserEntity userEntity) {
@@ -94,6 +96,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return true;
     }
 
+
+    //用户查询自己所下的订单
     @Override
     public List<OrderEntity> queryListOrder(Long userId) {
         List<OrderEntity> listOrder =  baseMapper.queryListOrder(userId);

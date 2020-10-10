@@ -104,6 +104,10 @@ public class OrderEntity implements Serializable {
 	 */
 	private String express;
 	/**
+	 * 是否评价
+	 */
+	private boolean comment;
+	/**
 	 * 创建时间
 	 */
 	private Date createTime;

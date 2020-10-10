@@ -24,6 +24,7 @@
         <result property="getNum" column="get_num"/>
         <result property="orderStatus" column="order_status"/>
         <result property="express" column="express"/>
+        <result property="comment" column="comment"/>
         <result property="createTime" column="create_time"/>
         <result property="createBy" column="create_by"/>
         <result property="modifyTime" column="modify_time"/>
@@ -60,7 +61,9 @@
             tb_order.receiver_area,
             tb_order.receiver_detaile_addr,
             tb_order.goods_type,
-            tb_order.express
+            tb_order.express,
+            tb_order.comment,
+            tb_order.create_time
         FROM
           tb_order
           INNER JOIN tb_task

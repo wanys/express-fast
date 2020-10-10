@@ -23,9 +23,9 @@ public interface OrderService extends IService<OrderEntity> {
     boolean saveOrder(OrderEntity orderEntity);
 
     boolean WeChatSaveOrder(OrderEntity orderEntity, UserEntity userEntity);
-
+    /*用户获下单订单*/
     List<OrderEntity> queryListOrder(Long userId);
-
+    /*用户获取待取件订单*/
     List<OrderEntity> queryListGetOrder(Long userId);
 
     OrderCharLine queryPageEcharsLine();//折线统计图

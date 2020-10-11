@@ -34,7 +34,7 @@ public class AppOrderController {
     }
 
     /**
-     * 保存
+     * 获取app用户订单
      */
     @Login
     @ApiOperation("获取app用户订单")
@@ -44,5 +44,39 @@ public class AppOrderController {
         List<OrderEntity> orderList=orderService.queryListOrder(user.getUserId());
 
         return R.ok().put("orderList",orderList);
+    }
+
+    /**
+     * 获取用户取件订单
+     */
+    @Login
+    @ApiOperation("获取用户取件订单")
+    @GetMapping("order/getOrder")
+    public R getOrder(@LoginUser UserEntity user){
+        List<OrderEntity> getOrderList=orderService.queryListGetOrder(user.getUserId());
+        return R.ok().put("orderList",getOrderList);
+    }
+
+
+    /*
+    * 入库操作
+    * */
+    @Login
+    @PostMapping("/order/ruku/{transportNo}")
+    public R ruku(@PathVariable("transportNo") String transportNo,@LoginUser UserEntity userEntity){
+        orderService.rukuOrder(transportNo,userEntity);
+        return R.ok();
+    }
+
+
+    /**
+     * 用户取件操作
+     */
+    @Login
+    @ApiOperation("用户取件")
+    @PostMapping("order/qujian/{transportNo}")
+    public R qujian(@PathVariable("transportNo") String transportNo,@LoginUser UserEntity userEntity){
+        orderService.qujian(transportNo,userEntity);
+        return R.ok();
     }
 }

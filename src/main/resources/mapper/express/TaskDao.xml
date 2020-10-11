@@ -10,6 +10,7 @@
 
         <result property="orderId" column="order_id"/>
         <result property="transportNo" column="transport_no"/>
+        <result property="resendName" column="resend_name"/>
         <result property="phoneNum" column="phone_num"/>
         <result property="province" column="province"/>
         <result property="city" column="city"/>

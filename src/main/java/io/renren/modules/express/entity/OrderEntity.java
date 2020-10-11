@@ -91,6 +91,10 @@ public class OrderEntity implements Serializable {
 	 */
 	private String transportNo;
 	/**
+	 * 运单号
+	 */
+	private String getNum;
+	/**
 	 * 订单状态
 	 */
 	private String orderStatus;
@@ -99,6 +103,10 @@ public class OrderEntity implements Serializable {
 	 * 快递公司
 	 */
 	private String express;
+	/**
+	 * 是否评价
+	 */
+	private boolean comment;
 	/**
 	 * 创建时间
 	 */

@@ -23,15 +23,19 @@ public class CommentEntity implements Serializable {
 	 * ID
 	 */
 	@TableId
-	private Integer commentId;
+	private String commentId;
 	/**
 	 * 用户ID
 	 */
-	private Integer userId;
+	private String userId;
 	/**
 	 * 快递员ID
 	 */
-	private Integer messengerId;
+	private String messengerId;
+	/**
+	 * 订单编号
+	 */
+	private String orderId;
 	/**
 	 * 服务质量打分
 	 */

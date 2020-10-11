@@ -22,7 +22,7 @@ public class RenrenApplication {
 	}
 
 	@Bean
-	public IdWorker idWorkker(){
+	public IdWorker idWorker(){
 		return new IdWorker(1, 1);
 	}
 

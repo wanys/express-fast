@@ -71,10 +71,10 @@ public class AddressController {
     /**
      * 删除
      */
-    @RequestMapping("address/delete")
+    @RequestMapping("address/delete/{addrId}")
    // @RequiresPermissions("express:address:delete")
-    public R delete(@RequestBody Long[] userIds){
-		addressService.removeByIds(Arrays.asList(userIds));
+    public R delete(@PathVariable("addrId") Long addrId){
+		addressService.removeById(addrId);
 
         return R.ok();
     }

@@ -12,7 +12,7 @@ import lombok.Data;
  * 
  * @author wys
  * @email sunlightcs@gmail.com
- * @date 2019-09-15 15:35:37
+ * @date 2020-10-11 17:16:42
  */
 @Data
 @TableName("tb_comment")
@@ -23,31 +23,55 @@ public class CommentEntity implements Serializable {
 	 * ID
 	 */
 	@TableId
-	private String commentId;
+	private Integer commentId;
 	/**
 	 * 用户ID
 	 */
-	private String userId;
+	private Integer userId;
 	/**
 	 * 快递员ID
 	 */
-	private String messengerId;
+	private Integer messengerId;
 	/**
-	 * 订单编号
+	 * 订单id
 	 */
 	private String orderId;
 	/**
-	 * 服务质量打分
+	 * 快递员服务态度
 	 */
-	private Integer service;
+	private Integer serviceAttitude;
 	/**
-	 * 物流速度打分
+	 * 快递员专业性
 	 */
-	private Integer speed;
+	private Integer professional;
 	/**
-	 * 物品完好度
+	 * 费用合理性
 	 */
-	private Integer goods;
+	private Integer spending;
+	/**
+	 * 取货/送货时间
+	 */
+	private Integer getSpeed;
+	/**
+	 * 下单之后发货时间/网点派送时间
+	 */
+	private Integer beginSpeed;
+	/**
+	 * 物品运输速度
+	 */
+	private Integer transportSpeed;
+	/**
+	 * 个人信息安全
+	 */
+	private Integer personalInfoSec;
+	/**
+	 * 物品完整度
+	 */
+	private Integer complete;
+	/**
+	 * 物品安全性
+	 */
+	private Integer goodsSec;
 	/**
 	 * 评价内容
 	 */

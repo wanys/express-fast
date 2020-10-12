@@ -1,14 +1,14 @@
 package io.renren.modules.express.service.impl;
 
-import cn.hutool.core.date.DateTime;
 import io.renren.common.utils.IdWorker;
 import io.renren.modules.app.entity.UserEntity;
-import io.renren.modules.express.entity.OrderEntity;
 import io.renren.modules.express.entity.TaskEntity;
 import io.renren.modules.express.service.OrderService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import cn.hutool.core.date.DateTime;
+import io.renren.modules.express.entity.OrderEntity;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -33,20 +33,26 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, CommentEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+
+        String content = (String)params.get("content");
+
         IPage<CommentEntity> page = this.page(
                 new Query<CommentEntity>().getPage(params),
                 new QueryWrapper<CommentEntity>()
+                        .like(StringUtils.isNotBlank(content),"content", params.get("content"))
+                        .orderByAsc("create_time")
         );
+
         return new PageUtils(page);
     }
 
     @Override
     public boolean saveComment(CommentEntity commentEntity, UserEntity userEntity) {
         //评论ID
-       // commentEntity.setCommentId(Long.toString(idWorker.nextId()));
+        // commentEntity.setCommentId(Long.toString(idWorker.nextId()));
         commentEntity.setCreateTime(new DateTime());
         commentEntity.setCreateBy(userEntity.getUserId().toString());
-        commentEntity.setUserId(userEntity.getUserId().toString());
+        //commentEntity.setUserId(userEntity.getUserId().intValue());
         this.save(commentEntity);
 
         OrderEntity orderEntity=orderService.getById(commentEntity.getOrderId());
@@ -65,6 +71,5 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, CommentEntity> i
         List<CommentEntity> commentEntityList=baseMapper.selectList(queryWrapper);
         return commentEntityList;
     }
-
 
 }

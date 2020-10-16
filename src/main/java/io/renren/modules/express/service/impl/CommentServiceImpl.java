@@ -49,17 +49,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, CommentEntity> i
     @Override
     public boolean saveComment(CommentEntity commentEntity, UserEntity userEntity) {
         //评论ID
-        // commentEntity.setCommentId(Long.toString(idWorker.nextId()));
+        //commentEntity.setCommentId(idWorker.nextId());
         commentEntity.setCreateTime(new DateTime());
         commentEntity.setCreateBy(userEntity.getUserId().toString());
-        //commentEntity.setUserId(userEntity.getUserId().intValue());
+        commentEntity.setUserId(userEntity.getUserId().intValue());
         this.save(commentEntity);
 
-        OrderEntity orderEntity=orderService.getById(commentEntity.getOrderId());
+        /*OrderEntity orderEntity=orderService.getById(commentEntity.getOrderId());
         orderEntity.setComment(true);
         orderEntity.setModifyTime(new DateTime());
         orderEntity.setModifyBy(userEntity.getUserId().toString());
-        orderService.saveOrUpdate(orderEntity);
+        orderService.saveOrUpdate(orderEntity);*/
 
         return true;
     }

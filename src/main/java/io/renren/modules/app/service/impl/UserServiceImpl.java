@@ -10,8 +10,11 @@ package io.renren.modules.app.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.exception.RRException;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.Query;
 import io.renren.common.validator.Assert;
 import io.renren.modules.app.dao.UserDao;
 import io.renren.modules.app.entity.UserEntity;
@@ -20,6 +23,8 @@ import io.renren.modules.app.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
@@ -27,6 +32,16 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 	@Override
 	public UserEntity queryByOpenid(String openid) {
 		return baseMapper.selectOne(new QueryWrapper<UserEntity>().eq("openid", openid));
+	}
+
+	@Override
+	public PageUtils queryPage(Map<String, Object> params) {
+		IPage<UserEntity> page = this.page(
+				new Query<UserEntity>().getPage(params),
+				new QueryWrapper<UserEntity>()
+		);
+
+		return new PageUtils(page);
 	}
 
 	@Override

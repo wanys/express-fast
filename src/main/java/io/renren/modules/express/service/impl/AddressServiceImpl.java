@@ -1,5 +1,6 @@
 package io.renren.modules.express.service.impl;
 
+import io.renren.modules.express.entity.OrderEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
@@ -24,6 +25,17 @@ public class AddressServiceImpl extends ServiceImpl<AddressDao, AddressEntity> i
                 new Query<AddressEntity>().getPage(params),
                 new QueryWrapper<AddressEntity>()
                         .eq(StringUtils.isNotBlank(userId),"user_id", params.get("userId"))
+        );
+
+        return new PageUtils(page);
+    }
+
+    @Override
+    public PageUtils queryPagepc(Map<String, Object> params) {
+        IPage<AddressEntity> page = this.page(
+                new Query<AddressEntity>().getPage(params),
+                new QueryWrapper<AddressEntity>()
+                        .orderByDesc("create_time")
         );
 
         return new PageUtils(page);

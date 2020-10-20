@@ -1,11 +1,10 @@
 package io.renren.modules.express.controller;
 
+
 import java.util.Arrays;
 import java.util.Map;
 
-import io.renren.modules.app.annotation.Login;
-import io.renren.modules.app.annotation.LoginUser;
-import io.renren.modules.app.entity.UserEntity;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,25 +32,24 @@ public class AddressController {
     /**
      * 列表
      */
-    @Login
-    @GetMapping("address/list")
-   // @RequiresPermissions("express:address:list")
-    public R list(@RequestParam Map<String, Object> params ,@LoginUser UserEntity user ){
-        params.put("userId",user.getUserId().toString());
-        PageUtils page = addressService.queryPage(params);
+
+    @GetMapping("/list")
+    @RequiresPermissions("express:address:list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = addressService.queryPagepc(params);
 
         return R.ok().put("page", page);
     }
 
+
     /**
      * 保存
      */
-    @Login
-    @RequestMapping("address/save")
-  //  @RequiresPermissions("express:address:save")
-    public R save(@RequestBody AddressEntity address,@LoginUser UserEntity user ){
-        address.setUserId(user.getUserId());
-		addressService.save(address);
+
+    @RequestMapping("/save")
+   @RequiresPermissions("express:address:save")
+    public R save(@RequestBody AddressEntity comment){
+        addressService.save(comment);
 
         return R.ok();
     }
@@ -59,8 +57,8 @@ public class AddressController {
     /**
      * 修改
      */
-    @RequestMapping("address/update")
-  //  @RequiresPermissions("express:address:update")
+    @RequestMapping("/update")
+    @RequiresPermissions("express:address:update")
     public R update(@RequestBody AddressEntity address){
 
 		addressService.updateById(address);
@@ -71,10 +69,10 @@ public class AddressController {
     /**
      * 删除
      */
-    @RequestMapping("address/delete/{addrId}")
-   // @RequiresPermissions("express:address:delete")
-    public R delete(@PathVariable("addrId") Long addrId){
-		addressService.removeById(addrId);
+    @RequestMapping("/delete")
+    @RequiresPermissions("express:address:delete")
+    public R delete(@RequestBody Integer[]  addrId){
+		addressService.removeByIds(Arrays.asList(addrId));
 
         return R.ok();
     }
@@ -83,10 +81,10 @@ public class AddressController {
     /**
      * 信息
      */
-    @RequestMapping("info/{userId}")
-    // @RequiresPermissions("express:address:info")
-    public R info(@PathVariable("userId") Long userId){
-        AddressEntity address = addressService.getById(userId);
+    @RequestMapping("/info/{addrId}")
+     @RequiresPermissions("express:address:info")
+    public R info(@PathVariable("addrId") Integer addrid){
+        AddressEntity address = addressService.getById(addrid);
 
         return R.ok().put("address", address);
     }

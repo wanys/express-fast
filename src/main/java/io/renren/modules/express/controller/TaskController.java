@@ -8,6 +8,8 @@ import java.util.Map;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.app.entity.UserEntity;
 import io.renren.modules.app.service.UserService;
+import io.renren.modules.express.entity.SuserEntity;
+import io.renren.modules.express.service.SuserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +41,10 @@ public class TaskController {
 
     @Autowired
     private UserService userService;
+
+
+    @Autowired
+    private SuserService suserService;
 
     /**
      * 列表
@@ -111,7 +117,7 @@ public class TaskController {
     @RequestMapping("/getCourier")
     @RequiresPermissions("express:task:allocation")
     public R getCourier(){
-       List<UserEntity> courierList= userService.list();
+       List<SuserEntity> courierList= suserService.list();
        return R.ok().put("courierList",courierList);
     }
 

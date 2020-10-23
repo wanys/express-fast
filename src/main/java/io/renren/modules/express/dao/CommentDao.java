@@ -2,7 +2,11 @@ package io.renren.modules.express.dao;
 
 import io.renren.modules.express.entity.CommentEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.modules.express.entity.OrderEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 快递员评价表
@@ -13,5 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CommentDao extends BaseMapper<CommentEntity> {
-	
+
+    List<CommentEntity> queryListComment();
 }

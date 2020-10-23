@@ -8,9 +8,16 @@
         <result property="commentId" column="comment_id"/>
         <result property="userId" column="user_id"/>
         <result property="messengerId" column="messenger_id"/>
-        <result property="service" column="service"/>
-        <result property="speed" column="speed"/>
-        <result property="goods" column="goods"/>
+        <result property="orderId" column="order_id"/>
+        <result property="serviceAttitude" column="service_attitude"/>
+        <result property="professional" column="professional"/>
+        <result property="spending" column="spending"/>
+        <result property="getSpeed" column="get_speed"/>
+        <result property="beginSpeed" column="begin_speed"/>
+        <result property="transportSpeed" column="transport_speed"/>
+        <result property="personalInfoSec" column="personal_info_sec"/>
+        <result property="complete" column="complete"/>
+        <result property="goodsSec" column="goods_sec"/>
         <result property="content" column="content"/>
         <result property="score" column="score"/>
         <result property="createBy" column="create_by"/>
@@ -19,5 +26,29 @@
         <result property="modifyTime" column="modify_time"/>
     </resultMap>
 
+    <select id="queryListComment" resultMap="commentMap">
+         SELECT
+            tb_comment.comment_id,
+            tb_comment.user_id,
+            tb_comment.messenger_id,
+            tb_comment.order_id,
+            tb_comment.service_attitude,
+            tb_comment.professional,
+            tb_comment.spending,
+            tb_comment.get_speed,
+            tb_comment.begin_speed,
+            tb_comment.transport_speed,
+            tb_comment.personal_info_sec,
+            tb_comment.complete,
+            tb_comment.goods_sec,
+            tb_comment.content,
+            tb_comment.score,
+            tb_comment.create_by,
+            tb_comment.create_time,
+            tb_comment.modify_by,
+            tb_comment.modify_time
+        FROM
+          tb_comment
+    </select>
 
 </mapper>

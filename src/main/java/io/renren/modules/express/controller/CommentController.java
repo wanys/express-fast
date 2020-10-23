@@ -37,6 +37,9 @@ public class CommentController {
     @RequestMapping("/list")
     @RequiresPermissions("express:comment:list")
     public R list(@RequestParam Map<String, Object> params){
+
+        commentService.queryListComment();
+
         PageUtils page = commentService.queryPage(params);
 
         return R.ok().put("page", page);

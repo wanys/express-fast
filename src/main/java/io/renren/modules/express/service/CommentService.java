@@ -20,5 +20,7 @@ public interface CommentService extends IService<CommentEntity> {
     PageUtils queryPage(Map<String, Object> params);
     boolean saveComment(CommentEntity commentEntity, UserEntity userEntity);
     List<CommentEntity> queryListComment(Long userId);
+    List<CommentEntity> queryListComment();
+
 }
 
